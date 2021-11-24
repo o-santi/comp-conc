@@ -23,7 +23,7 @@ O programa em C =lab2.c= foi compilado utilizando
 gcc lab2.c -o lab2 -Wall -lpthread -O3
 #+end_verbatim
 Utilizei o seguinte script em python para medir e plotar os gráficos:
-#+begin_src python
+#+begin_src python :tangle test_script.py
 from matplotlib import pyplot as plt
 from matplotlib import cm
 import subprocess
@@ -33,7 +33,7 @@ import numpy as np
 labels = ["sequencial", "1 thread", "2 threads", "4 threads"]
 x_pos = np.arange(len(labels))
 
-dimensoes = [500, 1000]
+dimensoes = [500, 1000, 2000]
 nthreads = [1, 2, 4]
 
 melhorias = []
@@ -55,9 +55,11 @@ for dim in dimensoes:
     tempos.insert(0, melhor_s)
     plt.bar(x_pos, tempos)
     plt.xticks(x_pos, labels)
+    plt.ylabel("Tempo (s)")
+    plt.title(f"Multiplicação de 2 matrizes de {dim} dimensões")
     plt.savefig(f"dim{dim}thread{thread}.png")
 
-fig = plt.figure(figsize=(8, 5))
+fig = plt.figure(figsize=(8, 8))
 ax = fig.add_subplot(1, 1, 1)
 
 x = np.linspace(1, 5, 1000)
@@ -66,11 +68,28 @@ ys = [(slope * x, nthread) for nthread, slope in melhorias]
 for y, nthread in ys:
     ax.plot(x, y, c=cm.Dark2(nthread/4))
 
-ax.plot(x, x, "r--")
+ax.plot(x, x, "r--", label="sequencial")
+ax.legend([f'{n} threads' for n in nthreads], loc="upper left")
 
-fig.savefig("melhorias.png", dpi=fig.dpi)
+fig.savefig("performance.png", dpi=fig.dpi)
 
 #+end_src
 
 #+RESULTS:
 : None
+
+* Resultados
+Podemos ver claramente comparando os tempos que a multiplicação implementada concorrentemente foi mais rápida. Podemos ver isso nas imagens [[fig:1][1]], [[fig:2][2]] e [[fig:3][3]], que demonstram claramente a relação: 
+#+LABEL: fig:1
+#+ATTR_LATEX: :width 0.6\textwidth
+[[/home/santi/Desktop/universidade/Computação Concorrente/trabalhos/Laboratorio 2/dim500thread4.png]]
+#+LABEL: fig:2
+#+ATTR_LATEX: :width 0.6\textwidth
+[[/home/santi/Desktop/universidade/Computação Concorrente/trabalhos/Laboratorio 2/dim1000thread4.png]]
+#+LABEL: fig:3
+#+ATTR_LATEX: :width 0.6\textwidth
+[[/home/santi/Desktop/universidade/Computação Concorrente/trabalhos/Laboratorio 2/dim2000thread4.png]]
+Não somente foi mais rápido, como a relação entre o número de threads e o tempo levado parece ser linear. No gráfico [[fig:4][4]], visualizamos cada uma das retas como o coeficiente de $T_{sequencial}/ T_{concorrente}$ e relacionamos ao número de threads: é explicito que a perfomance está diretamente relacionada ao número de threads, como esperado.
+#+LABEL: fig:4
+#+ATTR_LATEX: :width 0.6\textwidth
+[[/home/santi/Desktop/universidade/Computação Concorrente/trabalhos/Laboratorio 2/performance.png]]
