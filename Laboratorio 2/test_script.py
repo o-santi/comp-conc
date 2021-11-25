@@ -29,6 +29,8 @@ for dim in dimensoes:
     tempos.insert(0, melhor_s)
     plt.bar(x_pos, tempos)
     plt.xticks(x_pos, labels)
+    plt.ylabel("Tempo (s)")
+    plt.title(f"Multiplicação de 2 matrizes de {dim} dimensões")
     plt.savefig(f"dim{dim}thread{thread}.png")
 
 fig = plt.figure(figsize=(8, 8))
@@ -43,4 +45,4 @@ for y, nthread in ys:
 ax.plot(x, x, "r--", label="sequencial")
 ax.legend([f'{n} threads' for n in nthreads], loc="upper left")
 
-fig.savefig("melhorias.png", dpi=fig.dpi)
+fig.savefig("performance.png", dpi=fig.dpi)

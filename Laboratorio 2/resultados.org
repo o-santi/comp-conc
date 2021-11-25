@@ -92,4 +92,5 @@ Podemos ver claramente comparando os tempos que a multiplicação implementada c
 Não somente foi mais rápido, como a relação entre o número de threads e o tempo levado parece ser linear. No gráfico [[fig:4][4]], visualizamos cada uma das retas como o coeficiente de $T_{sequencial}/ T_{concorrente}$ e relacionamos ao número de threads: é explicito que a perfomance está diretamente relacionada ao número de threads, como esperado.
 #+LABEL: fig:4
 #+ATTR_LATEX: :width 0.6\textwidth
+#+CAPTION: A linha vermelha pontilhada representa a performance do algoritmo sequencial. 
 [[/home/santi/Desktop/universidade/Computação Concorrente/trabalhos/Laboratorio 2/performance.png]]
