@@ -1,0 +1,24 @@
+#+Title: Resultados do Laboratorio 4
+#+author: Leonardo Santiago (120036072)
+
+#+LaTeX_CLASS: trabalho-universidade
+#+options: toc:nil date:nil
+#+LaTeX_HEADER: \renewcommand\topleft{Laboratorio 4}
+
+
+* Análise
+Podemos analisar a execução do código olhando para cada um dos valores.
+
+Primeiramente notamos que se rodarmos as threads sequencialmente, T1 printará -1, T2 deixará =x = -1= e T3 transforma =x = 0= e não printa nada.
+
+Sabemos então que pelo menos o valor -1 pode ser printado.
+
+Notamos também que se a thread T3 for a primeira a executar, ela fará $x=1$ e printará corretamente o valor 1 (assumindo que não aconteça nenhuma interrupção entre o if e o printf). Continuando, T2 continuará deixando =x= intacto, e T1 não printará nada.
+
+Para que os outros valores sejam printados, precisamos que alguma das threads (T1 ou T3) sejam interompidas entre o teste feito no =if= e execução da função print, para que o valor de =x= seja alterado nesse meio tempo.
+
+Analisando primeiro quando T1 é interrompida nesse tempo, temos que =x = -1=, e portanto (como as Threads ainda precisam ser executadas sequencialmente dentro da própria thread), poderiamos ter que T2, incrementa =x= e depois T1 resume, printando 0; que T2 deixa o valor inalterado e printa -1; que T2 incrementa, T3 incrementa e depois printamos o valor =x = 1=; ou por fim que T2 incrementa, T3 incrementa, T2 decrementa e novamente temos o valor 0. Em todos os casos, o único valor novo que pode ser printado é o número 0.
+
+Analisando agora quando T3 é interrompida, temos exatamente =x = 1=, e portanto se T2 incrementar, podemos printar o número 2. Se T2 incrementar e decrementar, voltamos para o valor 1, e qualquer ação feita por T1 volta para um dos valores que já poderia ser alcançado antes (2, 1 ou 0), já que ele primeiro deve decrementar (chegando em 1 ou 0), e depois incrementar novamente (chegando em 2 ou 1), e por fim decrementar de novo (1 ou 0). Se em qualquer um desses momentos o valor for printado, não teremos nenhum valor novo.
+
+Portanto, analisando cada possível caso, vemos que os únicos valores que podem ser printados são -1, 0, 1 e 2. Os outros valores não poderão aparecer.
