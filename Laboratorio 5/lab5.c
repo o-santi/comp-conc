@@ -31,7 +31,7 @@ void * print_string(void* args){
     pthread_cond_wait(&p_cond, &p_mutex);
   }
   condicao++;
-  printf("%s\n",arg->prioridade, arg->frase);
+  printf("%s\n", arg->frase);
   pthread_cond_broadcast(&p_cond);
   pthread_mutex_unlock(&p_mutex);
   pthread_exit(NULL);
@@ -39,7 +39,7 @@ void * print_string(void* args){
 
 
 /* Funcao principal */
-int main(int argc, char *argv[]) {
+int main(void) {
   pthread_t threads[NTHREADS];
   //aloca espaco para os identificadores das threads
   for (int i=0; i < NTHREADS; i++)
