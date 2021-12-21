@@ -50,7 +50,7 @@ int main(void) {
   pthread_cond_init (&p_cond, NULL);
  
   /* Cria as threads */
-  t_arg *args = malloc(sizeof(t_arg) * NTHREADS);
+  t_arg args[NTHREADS]; 
   args[0].frase = "Volte sempre!";
   args[1].frase = "Fique a vontade.";
   args[2].frase = "Sente-se por favor.";
